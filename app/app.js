@@ -107,7 +107,7 @@ function uploadFile(auth){
       const resource = {"role": "reader", "type": "domain"};
       drive.permissions.create({fileId:file.data.id, resource: resource}, (error, result)=>{
           if (error) {
-            throw new Error(err);
+            throw new Error(error);
           }
           //If this work then we know the permission for public share has been created 
           console.log(file.data.id)
