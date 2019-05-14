@@ -102,7 +102,7 @@ function uploadFile(auth){
       // Handle error
       console.error(err);
     } else {
-      console.log('File Id: ', file.id);
+      console.log('File Id: ', file);
       const resource = {"role": "reader", "type": "anyone"};
       drive.permissions.create({fileId:file.id, resource: resource}, (error, result)=>{
           if (error) return;
