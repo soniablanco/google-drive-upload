@@ -6,15 +6,15 @@ services:
 
 env:
   global:
-    - PI_APP=forward-web-hook
+    - PI_APP=google-drive-upload
 
 
 script:
-- docker pull migruiz/$PI_APP || true
-- docker build --cache-from migruiz/$PI_APP  -t migruiz/$PI_APP . || travis_terminate 1
+- docker pull soniab/$PI_APP || true
+- docker build --cache-from soniab/$PI_APP  -t soniab/$PI_APP . || travis_terminate 1
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin || travis_terminate 1
-- docker push migruiz/$PI_APP || travis_terminate 1
+- docker push soniab/$PI_APP || travis_terminate 1
 
 notifications:
    email:
-      - mig.ruiz@gmail.com
+      - soniacarolina.blanco@gmail.com
