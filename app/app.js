@@ -46,7 +46,10 @@ function authorize(credentials, callback) {
 
   // Check if we have previously stored a token.
   fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) return getAccessToken(oAuth2Client, callback);
+    if (err) {
+    //  throw new Error(err);
+    return getAccessToken(oAuth2Client, callback);
+    }
     oAuth2Client.setCredentials(JSON.parse(token));
     callback(oAuth2Client);
   });
@@ -99,13 +102,13 @@ function uploadFile(auth){
     fields: 'id'
   }, function (err, file) {
     if (err) {
-      // Handle error
-      console.error(err);
+      throw new Error(err);
     } else {
-      console.log('File Id: ', file.data.id);
       const resource = {"role": "reader", "type": "anyone"};
       drive.permissions.create({fileId:file.data.id, resource: resource}, (error, result)=>{
-          if (error) return;
+          if (error) {
+            throw new Error(err);
+          }
           //If this work then we know the permission for public share has been created 
           console.log(file.data.id)
       });
