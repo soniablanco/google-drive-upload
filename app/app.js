@@ -110,7 +110,8 @@ function uploadFile(auth){
             throw new Error(error);
           }
           //If this work then we know the permission for public share has been created 
-          console.log(file.data.id)
+          var link= 'https://drive.google.com/open?id='+ file.data.id
+          console.log(link)
       });
 
 
