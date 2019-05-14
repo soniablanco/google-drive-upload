@@ -84,7 +84,8 @@ function getAccessToken(oAuth2Client, callback) {
 }
 
 
-function uploadFile(){
+function uploadFile(auth){
+  const drive = google.drive({version: 'v3', auth});
   var fileMetadata = {
     'name': 'app.apk'
   };
