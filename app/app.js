@@ -30,7 +30,7 @@ const TOKEN_PATH = '/secrets/token.json';
 fs.readFile('/secrets/credentials.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
   // Authorize a client with credentials, then call the Google Drive API.
-  authorize(JSON.parse(content), listFiles);
+  authorize(JSON.parse(content), uploadFile);
 });
 
 /**
@@ -82,6 +82,38 @@ function getAccessToken(oAuth2Client, callback) {
     });
   });
 }
+
+
+function uploadFile(){
+  var fileMetadata = {
+    'name': 'app.apk'
+  };
+  var media = {
+    mimeType: 'application/vnd.android.package-archive',
+    body: fs.createReadStream('file/app.apk')
+  };
+  drive.files.create({
+    resource: fileMetadata,
+    media: media,
+    fields: 'id'
+  }, function (err, file) {
+    if (err) {
+      // Handle error
+      console.error(err);
+    } else {
+      console.log('File Id: ', file.id);
+      const resource = {"role": "reader", "type": "anyone"};
+      drive.permissions.create({fileId:file.id, resource: resource}, (error, result)=>{
+          if (error) return;
+          //If this work then we know the permission for public share has been created 
+          console.log(file.id)
+      });
+
+
+    }
+  });
+}
+
 
 /**
  * Lists the names and IDs of up to 10 files.
